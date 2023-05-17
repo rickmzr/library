@@ -60,8 +60,12 @@ const createElementWithClass = (type, className) => {
 const toggleReadStatus = (event) => {
   const i = event.srcElement.dataset.index;
   myLibrary[i].read = !myLibrary[i].read;
-  console.log(myLibrary);
+  displayLibrary();
+};
 
+const deleteBook = (event) => {
+  const i = event.srcElement.dataset.index;
+  myLibrary.splice(i, 1);
   displayLibrary();
 };
 
@@ -92,6 +96,7 @@ const displayLibrary = () => {
     readBtn.addEventListener("click", toggleReadStatus);
     deleteBtn.textContent = "Delete Entry";
     deleteBtn.dataset.index = index;
+    deleteBtn.addEventListener("click", deleteBook);
 
     cardContainer.append(bookCard);
     bookCard.append(title, author, genre, pages, read, readBtn, deleteBtn);
