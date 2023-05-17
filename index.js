@@ -57,8 +57,20 @@ const createElementWithClass = (type, className) => {
   return element;
 };
 
+const toggleReadStatus = (event) => {
+  const i = event.srcElement.dataset.index;
+  myLibrary[i].read = !myLibrary[i].read;
+  console.log(myLibrary);
+
+  displayLibrary();
+};
+
 const displayLibrary = () => {
-  for (const book of myLibrary) {
+  while (cardContainer.firstChild) {
+    cardContainer.removeChild(cardContainer.firstChild);
+  }
+
+  for (const [index, book] of myLibrary.entries()) {
     const bookCard = createElementWithClass("div", "book-card");
     const title = createElementWithClass("p", "card-text");
     const author = createElementWithClass("p", "card-text");
@@ -76,7 +88,10 @@ const displayLibrary = () => {
       ? "You read this book!"
       : "Still on your reading list";
     readBtn.textContent = "Toggle read status";
+    readBtn.dataset.index = index;
+    readBtn.addEventListener("click", toggleReadStatus);
     deleteBtn.textContent = "Delete Entry";
+    deleteBtn.dataset.index = index;
 
     cardContainer.append(bookCard);
     bookCard.append(title, author, genre, pages, read, readBtn, deleteBtn);
